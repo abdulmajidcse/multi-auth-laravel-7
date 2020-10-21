@@ -20,3 +20,16 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+/**
+ * Admin Routes
+ */
+Route::namespace('Admin')->prefix('admin')->group(function() {
+    Route::get('login', 'LoginController@showLoginForm')->name('admin.login');
+    Route::post('login', 'LoginController@login')->name('admin.login');
+    Route::post('logout', 'LoginController@logout')->name('admin.logout');
+
+    Route::middleware('auth:admin')->group(function() {
+        Route::get('home', 'HomeController@index')->name('admin.home');
+    });
+});
